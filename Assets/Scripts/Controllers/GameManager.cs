@@ -48,7 +48,7 @@ public class GameManager : EddySingleton<GameManager>
 
     [Header("Pooling")]
     public ObjectPool cellPool;
-    public ObjectPool itemPool;
+    public ObjectPool normalItemPool;
 
     [Header("Data")]
     public SkinData skinData;

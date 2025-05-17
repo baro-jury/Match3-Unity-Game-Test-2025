@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class NormalItem : Item
@@ -24,10 +25,10 @@ public class NormalItem : Item
 
     public override void SetView()
     {
-        base.SetView();
+        // base.SetView();
 
-        // int index = (int)ItemType;
-        // View = GameManager.Instance.itemPool.GetObject(index).transform;
+        int index = (int)ItemType;
+        View = GameManager.Instance.normalItemPool.GetObject(index).transform;
 
         var renderer = View.GetComponent<SpriteRenderer>();
         renderer.sprite = GameManager.Instance.skinData.GetSkin(ItemType);
@@ -69,5 +70,31 @@ public class NormalItem : Item
         NormalItem it = other as NormalItem;
 
         return it != null && it.ItemType == this.ItemType;
+    }
+
+    internal override void ExplodeView()
+    {
+        if (View)
+        {
+            View.DOScale(0.1f, 0.1f).OnComplete(
+                () =>
+                {
+                    View.localScale = Vector3.one;
+                    GameManager.Instance.normalItemPool.ReleaseToPool(View.gameObject);
+                    View = null;
+                }
+                );
+        }
+    }
+
+    internal override void Clear()
+    {
+        Cell = null;
+
+        if (View)
+        {
+            GameManager.Instance.normalItemPool.ReleaseToPool(View.gameObject);
+            View = null;
+        }
     }
 }

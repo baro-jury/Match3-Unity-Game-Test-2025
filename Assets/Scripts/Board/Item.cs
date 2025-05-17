@@ -7,7 +7,7 @@ using DG.Tweening;
 [Serializable]
 public class Item
 {
-    public Cell Cell { get; private set; }
+    public Cell Cell { get; set; }
 
     public Transform View { get; set; }
 
@@ -82,8 +82,12 @@ public class Item
 
     internal void ShowAppearAnimation()
     {
-        if (View == null) return;
+        if (View == null)
+        {
+            return;
+        }
 
+            Debug.Log("view khong null");
         Vector3 scale = View.localScale;
         View.localScale = Vector3.one * 0.1f;
         View.DOScale(scale, 0.1f);
@@ -101,8 +105,7 @@ public class Item
             View.DOScale(0.1f, 0.1f).OnComplete(
                 () =>
                 {
-                    // GameObject.Destroy(View.gameObject);
-                    GameManager.Instance.itemPool.ReleaseToPool(View.gameObject);
+                    GameObject.Destroy(View.gameObject);
                     View = null;
                 }
                 );
@@ -127,14 +130,13 @@ public class Item
         }
     }
 
-    internal void Clear()
+    internal virtual void Clear()
     {
         Cell = null;
 
         if (View)
         {
-            // GameObject.Destroy(View.gameObject);
-            GameManager.Instance.itemPool.ReleaseToPool(View.gameObject);
+            GameObject.Destroy(View.gameObject);
             View = null;
         }
     }

@@ -1180,7 +1180,7 @@ GameObject:
   - component: {fileID: 1150534462}
   - component: {fileID: 1150534461}
   m_Layer: 0
-  m_Name: ItemPool
+  m_Name: NormalItemPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2710,7 +2710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_uiMenu: {fileID: 2110808864}
   cellPool: {fileID: 1955643844}
-  itemPool: {fileID: 1150534461}
+  normalItemPool: {fileID: 1150534461}
   skinData: {fileID: 11400000, guid: 63e94ba184e18a94c9a8153a7871e1e8, type: 2}
 --- !u!4 &2136919903
 Transform:
