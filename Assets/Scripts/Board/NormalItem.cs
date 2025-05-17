@@ -25,8 +25,6 @@ public class NormalItem : Item
 
     public override void SetView()
     {
-        // base.SetView();
-
         int index = (int)ItemType;
         View = GameManager.Instance.normalItemPool.GetObject(index).transform;
 

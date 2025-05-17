@@ -87,7 +87,6 @@ public class Item
             return;
         }
 
-            Debug.Log("view khong null");
         Vector3 scale = View.localScale;
         View.localScale = Vector3.one * 0.1f;
         View.DOScale(scale, 0.1f);
