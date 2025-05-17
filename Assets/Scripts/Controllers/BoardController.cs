@@ -174,7 +174,7 @@ public class BoardController : MonoBehaviour
             List<Cell> cells1 = GetMatches(cell1);
             List<Cell> cells2 = GetMatches(cell2);
 
-            List<Cell> matches = new List<Cell>();
+            List<Cell> matches = ListPool<Cell>.Get();
             matches.AddRange(cells1);
             matches.AddRange(cells2);
             matches = matches.Distinct().ToList();

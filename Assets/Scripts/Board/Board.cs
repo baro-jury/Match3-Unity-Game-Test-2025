@@ -188,7 +188,7 @@ public class Board
 
     public List<Cell> GetHorizontalMatches(Cell cell)
     {
-        List<Cell> list = new List<Cell>();
+        List<Cell> list = ListPool<Cell>.Get();
         list.Add(cell);
 
         //check horizontal match
@@ -226,7 +226,7 @@ public class Board
 
     public List<Cell> GetVerticalMatches(Cell cell)
     {
-        List<Cell> list = new List<Cell>();
+        List<Cell> list = ListPool<Cell>.Get();
         list.Add(cell);
 
         Cell newcell = cell;
@@ -322,7 +322,7 @@ public class Board
 
     internal List<Cell> FindFirstMatch()
     {
-        List<Cell> list = new List<Cell>();
+        List<Cell> list = ListPool<Cell>.Get();
 
         for (int x = 0; x < boardSizeX; x++)
         {
@@ -359,7 +359,7 @@ public class Board
             return matches;
         }
 
-        List<Cell> result = new List<Cell>();
+        List<Cell> result = ListPool<Cell>.Get();
         switch (dir)
         {
             case eMatchDirection.HORIZONTAL:
@@ -399,7 +399,7 @@ public class Board
 
     internal List<Cell> GetPotentialMatches()
     {
-        List<Cell> result = new List<Cell>();
+        List<Cell> result = ListPool<Cell>.Get();
         for (int x = 0; x < boardSizeX; x++)
         {
             for (int y = 0; y < boardSizeY; y++)
@@ -525,7 +525,7 @@ public class Board
 
     private List<Cell> GetPotentialMatch(Cell cell, Cell neighbour, Cell target)
     {
-        List<Cell> result = new List<Cell>();
+        List<Cell> result = ListPool<Cell>.Get();
 
         if (neighbour != null && neighbour.IsSameType(cell))
         {
