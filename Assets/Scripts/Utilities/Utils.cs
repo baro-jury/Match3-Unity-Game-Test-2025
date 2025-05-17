@@ -7,9 +7,9 @@ using URandom = UnityEngine.Random;
 
 public class Utils
 {
-    public static NormalItem.eNormalType GetRandomNormalType(NormalItem.eNormalType[] values)
+    public static NormalItem.eNormalType GetRandomNormalType()
     {
-        // Array values = Enum.GetValues(typeof(NormalItem.eNormalType));
+        Array values = Enum.GetValues(typeof(NormalItem.eNormalType));
         NormalItem.eNormalType result = (NormalItem.eNormalType)values.GetValue(URandom.Range(0, values.Length));
 
         return result;

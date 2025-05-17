@@ -160,9 +160,7 @@ public class Board
         //     }
         // }
 
-        NormalItem.eNormalType[] itemTypes = (NormalItem.eNormalType[])Enum.GetValues(typeof(NormalItem.eNormalType));
-        Dictionary<NormalItem.eNormalType, int> itemCounts = CountItemsByTypeOnBoard(itemTypes);
-
+        Dictionary<NormalItem.eNormalType, int> itemCounts = CountItemsByTypeOnBoard();
         for (int x = 0; x < boardSizeX; x++)
         {
             for (int y = 0; y < boardSizeY; y++)
@@ -193,7 +191,7 @@ public class Board
                 }
                 else
                 {
-                    chosenType = Utils.GetRandomNormalType(itemTypes);
+                    chosenType = Utils.GetRandomNormalType();
                 }
 
                 NormalItem item = new NormalItem();
@@ -204,14 +202,14 @@ public class Board
                 cell.Assign(item);
                 cell.ApplyItemPosition(true);
 
-                if (itemCounts.ContainsKey(chosenType))
-                    itemCounts[chosenType]++;
+                if (itemCounts.ContainsKey(chosenType)) itemCounts[chosenType]++;
             }
         }
     }
 
-    private Dictionary<NormalItem.eNormalType, int> CountItemsByTypeOnBoard(NormalItem.eNormalType[] itemTypes)
+    private Dictionary<NormalItem.eNormalType, int> CountItemsByTypeOnBoard()
     {
+        NormalItem.eNormalType[] itemTypes = (NormalItem.eNormalType[])Enum.GetValues(typeof(NormalItem.eNormalType));
         Dictionary<NormalItem.eNormalType, int> itemCounts = new Dictionary<NormalItem.eNormalType, int>();
         foreach (var type in itemTypes)
         {
