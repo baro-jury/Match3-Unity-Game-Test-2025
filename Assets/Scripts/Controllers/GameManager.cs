@@ -23,6 +23,8 @@ public class GameManager : EddySingleton<GameManager>
         GAME_OVER,
     }
 
+    public eLevelMode LevelMode { get; set; }
+
     private eStateGame m_state;
     public eStateGame State
     {
@@ -34,7 +36,6 @@ public class GameManager : EddySingleton<GameManager>
             StateChangedAction(m_state);
         }
     }
-
 
     private GameSettings m_gameSettings;
 
@@ -92,6 +93,7 @@ public class GameManager : EddySingleton<GameManager>
 
     public void LoadLevel(eLevelMode mode)
     {
+        if (m_levelCondition != null) m_levelCondition.OnDestroy();
         m_boardController = new GameObject("BoardController").AddComponent<BoardController>();
         m_boardController.StartGame(this, m_gameSettings);
 

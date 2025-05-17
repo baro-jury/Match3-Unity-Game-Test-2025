@@ -36,8 +36,8 @@ public class LevelCondition : MonoBehaviour
         ConditionCompleteEvent();
     }
 
-    protected virtual void OnDestroy()
+    public virtual void OnDestroy()
     {
-
+        ConditionCompleteEvent = delegate { };
     }
 }

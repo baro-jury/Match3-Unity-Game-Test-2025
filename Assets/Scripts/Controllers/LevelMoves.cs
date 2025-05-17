@@ -42,7 +42,7 @@ public class LevelMoves : LevelCondition
         m_txt.text = string.Format("MOVES:\n{0}", m_moves);
     }
 
-    protected override void OnDestroy()
+    public override void OnDestroy()
     {
         if (m_board != null) m_board.OnMoveEvent -= OnMove;
 
