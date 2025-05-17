@@ -21,6 +21,7 @@ public class ObjectPool : MonoBehaviour
 
     public void ReleaseToPool(GameObject obj)
     {
+        obj.transform.SetParent(this.transform);
         obj.SetActive(false);
         pool.Enqueue(obj);
     }
