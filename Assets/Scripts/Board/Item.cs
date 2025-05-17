@@ -9,7 +9,7 @@ public class Item
 {
     public Cell Cell { get; private set; }
 
-    public Transform View { get; private set; }
+    public Transform View { get; set; }
 
 
     public virtual void SetView()
@@ -101,7 +101,8 @@ public class Item
             View.DOScale(0.1f, 0.1f).OnComplete(
                 () =>
                 {
-                    GameObject.Destroy(View.gameObject);
+                    // GameObject.Destroy(View.gameObject);
+                    GameManager.Instance.itemPool.ReleaseToPool(View.gameObject);
                     View = null;
                 }
                 );
@@ -132,7 +133,8 @@ public class Item
 
         if (View)
         {
-            GameObject.Destroy(View.gameObject);
+            // GameObject.Destroy(View.gameObject);
+            GameManager.Instance.itemPool.ReleaseToPool(View.gameObject);
             View = null;
         }
     }

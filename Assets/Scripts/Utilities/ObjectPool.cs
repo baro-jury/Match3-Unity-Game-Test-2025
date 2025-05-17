@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    public GameObject prefab;
+    public GameObject[] prefabs;
     private Queue<GameObject> pool = new Queue<GameObject>();
 
-    public GameObject GetObject()
+    public GameObject GetObject(int index)
     {
         if (pool.Count > 0)
         {
@@ -16,7 +16,7 @@ public class ObjectPool : MonoBehaviour
             return obj;
         }
 
-        return Instantiate(prefab, transform);
+        return Instantiate(prefabs[index], transform);
     }
 
     public void ReleaseToPool(GameObject obj)

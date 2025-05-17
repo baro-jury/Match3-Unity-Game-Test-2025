@@ -25,7 +25,10 @@ public class NormalItem : Item
     public override void SetView()
     {
         base.SetView();
-        
+
+        // int index = (int)ItemType;
+        // View = GameManager.Instance.itemPool.GetObject(index).transform;
+
         var renderer = View.GetComponent<SpriteRenderer>();
         renderer.sprite = GameManager.Instance.skinData.GetSkin(ItemType);
     }

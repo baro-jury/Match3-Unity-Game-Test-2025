@@ -1075,7 +1075,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a58bb91af363644a37f8590f08b403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefabs:
+  - {fileID: 1645311756642076403, guid: 42636182d7ad561418687da1a9301f13, type: 3}
+  - {fileID: 1645311756642076403, guid: c02be8d33867e784787a1db70d743e36, type: 3}
+  - {fileID: 1645311756642076403, guid: c3334ca92edd09f4b83b6df9783252fa, type: 3}
+  - {fileID: 1645311756642076403, guid: 5ccf5b053fc1fe1499d69d9d384cd695, type: 3}
+  - {fileID: 1645311756642076403, guid: 8a5f83856079b5c4b8a0c1b6bd4a199e, type: 3}
+  - {fileID: 1645311756642076403, guid: acd51b1157b037f478be336b1e22b029, type: 3}
+  - {fileID: 1645311756642076403, guid: 866d4248d2e1fad418c1e4c0566ae0a3, type: 3}
 --- !u!4 &1150534462
 Transform:
   m_ObjectHideFlags: 0
@@ -2024,7 +2031,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a58bb91af363644a37f8590f08b403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1645311756642076403, guid: 36ec5f479201921458e80cc24e85189a, type: 3}
+  prefabs:
+  - {fileID: 1645311756642076403, guid: 36ec5f479201921458e80cc24e85189a, type: 3}
 --- !u!4 &1955643845
 Transform:
   m_ObjectHideFlags: 0
