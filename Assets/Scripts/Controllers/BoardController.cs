@@ -69,21 +69,41 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        InvokeRepeating(nameof(CheckHint), 1f, 0.1f);
+    }
 
-    public void Update()
+    private void CheckHint()
     {
         if (m_gameOver) return;
         if (IsBusy) return;
 
         if (!m_hintIsShown)
         {
-            m_timeAfterFill += Time.deltaTime;
+            m_timeAfterFill += 0.1f;
             if (m_timeAfterFill > m_gameSettings.TimeForHint)
             {
                 m_timeAfterFill = 0f;
                 ShowHint();
             }
         }
+    }
+
+    public void Update()
+    {
+        // if (m_gameOver) return;
+        // if (IsBusy) return;
+
+        // if (!m_hintIsShown)
+        // {
+        //     m_timeAfterFill += Time.deltaTime;
+        //     if (m_timeAfterFill > m_gameSettings.TimeForHint)
+        //     {
+        //         m_timeAfterFill = 0f;
+        //         ShowHint();
+        //     }
+        // }
 
         if (Input.GetMouseButtonDown(0))
         {
