@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : EddySingleton<GameManager>
 {
     public event Action<eStateGame> StateChangedAction = delegate { };
 
@@ -45,10 +45,17 @@ public class GameManager : MonoBehaviour
 
     private LevelCondition m_levelCondition;
 
+    [Header("Pooling")]
     public ObjectPool cellPool;
+    public ObjectPool itemPool;
 
-    private void Awake()
+    [Header("Data")]
+    public SkinData skinData;
+
+    protected override void Awake()
     {
+        base.Awake();
+
         State = eStateGame.SETUP;
 
         m_gameSettings = Resources.Load<GameSettings>(Constants.GAME_SETTINGS_PATH);
@@ -73,7 +80,7 @@ public class GameManager : MonoBehaviour
     {
         State = state;
 
-        if(State == eStateGame.PAUSE)
+        if (State == eStateGame.PAUSE)
         {
             DOTween.PauseAll();
         }

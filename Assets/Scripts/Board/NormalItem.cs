@@ -22,6 +22,14 @@ public class NormalItem : Item
         ItemType = type;
     }
 
+    public override void SetView()
+    {
+        base.SetView();
+        
+        var renderer = View.GetComponent<SpriteRenderer>();
+        renderer.sprite = GameManager.Instance.skinData.GetSkin(ItemType);
+    }
+
     protected override string GetPrefabName()
     {
         string prefabname = string.Empty;
