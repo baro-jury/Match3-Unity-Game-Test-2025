@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     private BoardController m_boardController;
 
-    private UIMainManager m_uiMenu;
+    public UIMainManager m_uiMenu;
 
     private LevelCondition m_levelCondition;
 
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
         m_gameSettings = Resources.Load<GameSettings>(Constants.GAME_SETTINGS_PATH);
 
-        m_uiMenu = FindObjectOfType<UIMainManager>();
+        // m_uiMenu = FindObjectOfType<UIMainManager>();
         m_uiMenu.Setup(this);
     }
 
