@@ -75,14 +75,15 @@ public class BonusItem : Item
     private void ExplodeBomb()
     {
         List<Cell> list = ListPool<Cell>.Get();
+        
         if (Cell.NeighbourBottom) list.Add(Cell.NeighbourBottom);
-        if (Cell.NeighbourUp) list.Add(Cell.NeighbourUp);
+        if (Cell.NeighbourTop) list.Add(Cell.NeighbourTop);
         if (Cell.NeighbourLeft)
         {
             list.Add(Cell.NeighbourLeft);
-            if (Cell.NeighbourLeft.NeighbourUp)
+            if (Cell.NeighbourLeft.NeighbourTop)
             {
-                list.Add(Cell.NeighbourLeft.NeighbourUp);
+                list.Add(Cell.NeighbourLeft.NeighbourTop);
             }
             if (Cell.NeighbourLeft.NeighbourBottom)
             {
@@ -92,9 +93,9 @@ public class BonusItem : Item
         if (Cell.NeighbourRight)
         {
             list.Add(Cell.NeighbourRight);
-            if (Cell.NeighbourRight.NeighbourUp)
+            if (Cell.NeighbourRight.NeighbourTop)
             {
-                list.Add(Cell.NeighbourRight.NeighbourUp);
+                list.Add(Cell.NeighbourRight.NeighbourTop);
             }
             if (Cell.NeighbourRight.NeighbourBottom)
             {
@@ -106,6 +107,8 @@ public class BonusItem : Item
         {
             list[i].ExplodeItem();
         }
+
+        ListPool<Cell>.Release(list);
     }
 
     private void ExplodeVerticalLine()
@@ -115,7 +118,7 @@ public class BonusItem : Item
         Cell newcell = Cell;
         while (true)
         {
-            Cell next = newcell.NeighbourUp;
+            Cell next = newcell.NeighbourTop;
             if (next == null) break;
 
             list.Add(next);
@@ -137,6 +140,8 @@ public class BonusItem : Item
         {
             list[i].ExplodeItem();
         }
+
+        ListPool<Cell>.Release(list);
     }
 
     private void ExplodeHorizontalLine()
@@ -169,5 +174,6 @@ public class BonusItem : Item
             list[i].ExplodeItem();
         }
 
+        ListPool<Cell>.Release(list);
     }
 }

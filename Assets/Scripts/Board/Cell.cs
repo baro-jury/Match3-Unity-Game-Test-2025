@@ -9,7 +9,7 @@ public class Cell : MonoBehaviour
 
     public Item Item { get; private set; }
 
-    public Cell NeighbourUp { get; set; }
+    public Cell NeighbourTop { get; set; }
 
     public Cell NeighbourRight { get; set; }
 

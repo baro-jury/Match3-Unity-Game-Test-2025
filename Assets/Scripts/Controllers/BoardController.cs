@@ -192,6 +192,7 @@ public class BoardController : MonoBehaviour
 
                 CollapseMatches(matches, cell2);
             }
+            ListPool<Cell>.Release(matches);
         }
     }
 
@@ -218,6 +219,8 @@ public class BoardController : MonoBehaviour
                 StartCoroutine(ShuffleBoardCoroutine());
             }
         }
+
+        ListPool<Cell>.Release(matches);
     }
 
     private List<Cell> GetMatches(Cell cell)

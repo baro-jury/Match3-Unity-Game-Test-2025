@@ -67,7 +67,7 @@ public class Board
         {
             for (int y = 0; y < boardSizeY; y++)
             {
-                if (y + 1 < boardSizeY) m_cells[x, y].NeighbourUp = m_cells[x, y + 1];
+                if (y + 1 < boardSizeY) m_cells[x, y].NeighbourTop = m_cells[x, y + 1];
                 if (x + 1 < boardSizeX) m_cells[x, y].NeighbourRight = m_cells[x + 1, y];
                 if (y > 0) m_cells[x, y].NeighbourBottom = m_cells[x, y - 1];
                 if (x > 0) m_cells[x, y].NeighbourLeft = m_cells[x - 1, y];
@@ -142,6 +142,27 @@ public class Board
 
     internal void FillGapsWithNewItems()
     {
+        // for (int x = 0; x < boardSizeX; x++)
+        // {
+        //     for (int y = 0; y < boardSizeY; y++)
+        //     {
+        //         Cell cell = m_cells[x, y];
+        //         if (!cell.IsEmpty) continue;
+
+        //         NormalItem item = new NormalItem();
+
+        //         item.SetType(Utils.GetRandomNormalType());
+        //         item.SetView();
+        //         item.SetViewRoot(m_root);
+
+        //         cell.Assign(item);
+        //         cell.ApplyItemPosition(true);
+        //     }
+        // }
+
+        NormalItem.eNormalType[] itemTypes = (NormalItem.eNormalType[])Enum.GetValues(typeof(NormalItem.eNormalType));
+        Dictionary<NormalItem.eNormalType, int> itemCounts = CountItemsByTypeOnBoard(itemTypes);
+
         for (int x = 0; x < boardSizeX; x++)
         {
             for (int y = 0; y < boardSizeY; y++)
@@ -149,16 +170,64 @@ public class Board
                 Cell cell = m_cells[x, y];
                 if (!cell.IsEmpty) continue;
 
-                NormalItem item = new NormalItem();
+                HashSet<NormalItem.eNormalType> excludedTypes = new HashSet<NormalItem.eNormalType>();
+                Cell[] neighbors = { cell.NeighbourTop, cell.NeighbourBottom, cell.NeighbourLeft, cell.NeighbourRight };
+                foreach (var neighbor in neighbors)
+                {
+                    if (neighbor != null && neighbor.Item is NormalItem neighborItem)
+                    {
+                        excludedTypes.Add(neighborItem.ItemType);
+                    }
+                }
 
-                item.SetType(Utils.GetRandomNormalType());
+                var validTypes = itemCounts
+                    .Where(kvp => !excludedTypes.Contains(kvp.Key))
+                    .OrderBy(kvp => kvp.Value)
+                    .Select(kvp => kvp.Key)
+                    .ToList();
+
+                NormalItem.eNormalType chosenType;
+                if (validTypes.Count > 0)
+                {
+                    chosenType = validTypes[0];
+                }
+                else
+                {
+                    chosenType = Utils.GetRandomNormalType(itemTypes);
+                }
+
+                NormalItem item = new NormalItem();
+                item.SetType(chosenType);
                 item.SetView();
                 item.SetViewRoot(m_root);
 
                 cell.Assign(item);
                 cell.ApplyItemPosition(true);
+
+                if (itemCounts.ContainsKey(chosenType))
+                    itemCounts[chosenType]++;
             }
         }
+    }
+
+    private Dictionary<NormalItem.eNormalType, int> CountItemsByTypeOnBoard(NormalItem.eNormalType[] itemTypes)
+    {
+        Dictionary<NormalItem.eNormalType, int> itemCounts = new Dictionary<NormalItem.eNormalType, int>();
+        foreach (var type in itemTypes)
+        {
+            itemCounts[type] = 0;
+        }
+        for (int x = 0; x < boardSizeX; x++)
+        {
+            for (int y = 0; y < boardSizeY; y++)
+            {
+                if (m_cells[x, y].Item is NormalItem item)
+                {
+                    itemCounts[item.ItemType]++;
+                }
+            }
+        }
+        return itemCounts;
     }
 
     internal void ExplodeAllItems()
@@ -232,7 +301,7 @@ public class Board
         Cell newcell = cell;
         while (true)
         {
-            Cell neib = newcell.NeighbourUp;
+            Cell neib = newcell.NeighbourTop;
             if (neib == null) break;
 
             if (neib.IsSameType(cell))
@@ -336,6 +405,7 @@ public class Board
                     list = listhor;
                     break;
                 }
+                ListPool<Cell>.Release(listhor);
 
                 var listvert = GetVerticalMatches(cell);
                 if (listvert.Count >= m_matchMin)
@@ -343,6 +413,7 @@ public class Board
                     list = listvert;
                     break;
                 }
+                ListPool<Cell>.Release(listvert);
             }
         }
 
@@ -432,9 +503,9 @@ public class Board
                   * & * * *
                   * * * * *
                 \* example  */
-                if (cell.NeighbourUp != null)
+                if (cell.NeighbourTop != null)
                 {
-                    result = GetPotentialMatch(cell, cell.NeighbourUp, cell.NeighbourUp.NeighbourUp);
+                    result = GetPotentialMatch(cell, cell.NeighbourTop, cell.NeighbourTop.NeighbourTop);
                     if (result.Count > 0)
                     {
                         break;
@@ -503,14 +574,14 @@ public class Board
                   * * * * *
                 \* example  */
                 neib = null;
-                neib = cell.NeighbourUp;
-                if (neib != null && neib.NeighbourUp != null && neib.NeighbourUp.IsSameType(cell))
+                neib = cell.NeighbourTop;
+                if (neib != null && neib.NeighbourTop != null && neib.NeighbourTop.IsSameType(cell))
                 {
                     Cell second = LookForTheSecondCellHorizontal(neib, cell);
                     if (second != null)
                     {
                         result.Add(cell);
-                        result.Add(neib.NeighbourUp);
+                        result.Add(neib.NeighbourTop);
                         result.Add(second);
                         break;
                     }
@@ -571,7 +642,7 @@ public class Board
         if (target.IsSameType(main)) return null;
 
         //look up        
-        Cell second = target.NeighbourUp;
+        Cell second = target.NeighbourTop;
         if (second != null && second.IsSameType(main))
         {
             return second;
@@ -594,7 +665,7 @@ public class Board
         if (target.IsSameType(main)) return null;
 
         //look up
-        Cell third = CheckThirdCell(target.NeighbourUp, main);
+        Cell third = CheckThirdCell(target.NeighbourTop, main);
         if (third != null)
         {
             return third;
