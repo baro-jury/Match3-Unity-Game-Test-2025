@@ -15,6 +15,8 @@ public class Board
         ALL
     }
 
+    private GameManager m_gameManager;
+
     private int boardSizeX;
 
     private int boardSizeY;
@@ -25,9 +27,10 @@ public class Board
 
     private int m_matchMin;
 
-    public Board(Transform transform, GameSettings gameSettings)
+    public Board(Transform transform, GameManager gameManager, GameSettings gameSettings)
     {
         m_root = transform;
+        m_gameManager = gameManager;
 
         m_matchMin = gameSettings.MatchesMin;
 
@@ -42,14 +45,15 @@ public class Board
     private void CreateBoard()
     {
         Vector3 origin = new Vector3(-boardSizeX * 0.5f + 0.5f, -boardSizeY * 0.5f + 0.5f, 0f);
-        GameObject prefabBG = Resources.Load<GameObject>(Constants.PREFAB_CELL_BACKGROUND);
+        // GameObject prefabBG = Resources.Load<GameObject>(Constants.PREFAB_CELL_BACKGROUND);
         for (int x = 0; x < boardSizeX; x++)
         {
             for (int y = 0; y < boardSizeY; y++)
             {
-                GameObject go = GameObject.Instantiate(prefabBG);
+                // GameObject go = GameObject.Instantiate(prefabBG);
+                GameObject go = m_gameManager.cellPool.GetObject();
                 go.transform.position = origin + new Vector3(x, y, 0f);
-                go.transform.SetParent(m_root);
+                // go.transform.SetParent(m_root);
 
                 Cell cell = go.GetComponent<Cell>();
                 cell.Setup(x, y);
@@ -350,7 +354,7 @@ public class Board
         var dir = GetMatchDirection(matches);
 
         var bonus = matches.Where(x => x.Item is BonusItem).FirstOrDefault();
-        if(bonus == null)
+        if (bonus == null)
         {
             return matches;
         }
@@ -669,7 +673,8 @@ public class Board
                 Cell cell = m_cells[x, y];
                 cell.Clear();
 
-                GameObject.Destroy(cell.gameObject);
+                // GameObject.Destroy(cell.gameObject);
+                m_gameManager.cellPool.ReleaseToPool(cell.gameObject);
                 m_cells[x, y] = null;
             }
         }
